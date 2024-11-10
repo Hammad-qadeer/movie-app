@@ -1,6 +1,11 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsInt, IsPositive, Min, Max, IsNotEmpty } from 'class-validator';
 
 export class CreateRatingDto {
+  @ApiProperty({
+    description: 'Rating value between 1 and 5',
+    example: 4,
+  })
   @IsInt()
   @Min(1)
   @Max(5)
@@ -9,6 +14,10 @@ export class CreateRatingDto {
   })
   ratingNumber: number;
 
+  @ApiProperty({
+    description: 'Movie ID',
+    example: 1,
+  })
   @IsInt()
   @IsPositive()
   @IsNotEmpty({
@@ -16,6 +25,10 @@ export class CreateRatingDto {
   })
   movieId: number;
 
+  @ApiProperty({
+    description: 'User ID',
+    example: 1,
+  })
   @IsInt()
   @IsPositive()
   @IsNotEmpty({

@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Movie } from './entities/movie.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Category } from 'src/category/entities/category.entity';
@@ -29,13 +29,19 @@ export class MovieService {
   }
 
   async create(createMovieDto: CreateMovieDto): Promise<Movie> {
-    const categoryId = await this.categoryRepository.find({
-      where: { id: createMovieDto.categoryId },
+    const categories = await this.categoryRepository.find({
+      where: { id: In(createMovieDto.categoryIds) },
     });
+
+    if(categories.length !== createMovieDto.categoryIds.length) {
+      throw new NotFoundException(
+        `Categories with IDs ${createMovieDto.categoryIds} not found`,
+      );
+    }
 
     const movie = this.movieRepository.create({
       ...createMovieDto,
-      categories: categoryId,
+      categories,
     });
     return await this.movieRepository.save(movie);
   }
