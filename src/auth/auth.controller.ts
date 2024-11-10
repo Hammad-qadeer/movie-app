@@ -10,13 +10,14 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 import { AuthService } from './auth.service';
+import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  async login(@Body() loginDto: { username: string; password: string }) {
+  async login(@Body() loginDto: LoginDto) {
     const { username, password } = loginDto;
     const user = await this.authService.validateUser(username, password);
     if (!user) {

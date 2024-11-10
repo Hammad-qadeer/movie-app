@@ -6,8 +6,14 @@ export class Category {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 100 })
-  name: string;
+  @Column({ type: 'varchar', length: 255 })
+  categoryName: string;
+
+  @Column({ type: 'varchar', length: 255 })
+  categoryDescription: string;
+
+  @Column({ type: 'varchar', length: 255 })
+  categoryId: string;
 
   @ManyToMany(() => Movie, (movie) => movie.categories)
   movies: Movie[];

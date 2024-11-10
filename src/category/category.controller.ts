@@ -9,6 +9,8 @@ import {
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { Category } from './entities/category.entity';
+import { CreateCategoryDto } from './dto/create-category.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Controller('categories')
 export class CategoryController {
@@ -25,16 +27,18 @@ export class CategoryController {
   }
 
   @Post()
-  async createCategory(@Body('name') name: string): Promise<Category> {
-    return await this.categoryService.createCategory(name);
+  async createCategory(
+    @Body() CreateCategoryDto: CreateCategoryDto,
+  ): Promise<Category> {
+    return await this.categoryService.createCategory(CreateCategoryDto);
   }
 
   @Patch(':id')
   async updateCategory(
     @Param('id') id: number,
-    @Body('name') name: string,
+    @Body() updateCategoryDto: UpdateCategoryDto,
   ): Promise<Category> {
-    return await this.categoryService.updatedCateogry(id, name);
+    return await this.categoryService.updatedCateogry(id, updateCategoryDto);
   }
 
   @Delete(':id')

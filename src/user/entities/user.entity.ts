@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { MovieRating } from '../../rating/entities/rating.entity';
 import * as bcrypt from 'bcrypt';
+import { Category } from 'src/category/entities/category.entity';
 
 @Entity()
 export class User {
@@ -39,12 +40,13 @@ export class User {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
-  // @ManyToMany(() => Category, (category) => category.users)
-  // @JoinTable()
-  // categories: Category[];
 
   @OneToMany(() => MovieRating, (movieRating) => movieRating.user)
   ratings: MovieRating[];
+
+  @ManyToMany(() => Category)
+  @JoinTable()
+  categories: Category[];
 
   @BeforeInsert()
   async hashPassword() {

@@ -10,6 +10,8 @@ import {
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateCategoryDto } from 'src/category/dto/update-category.dto';
+import { UpdateUserDto } from './dto/udpate-user.dto';
 
 @Controller('users')
 export class UserController {
@@ -33,9 +35,9 @@ export class UserController {
   @Patch(':id')
   async update(
     @Param('id') id: number,
-    @Body() updateUserDto: CreateUserDto,
+    @Body() updateUserDto: UpdateUserDto,
   ): Promise<User> {
-    return this.userService.update(id, updateUserDto);
+    return this.userService.updateUserData(id, updateUserDto);
   }
 
   @Delete(':id')

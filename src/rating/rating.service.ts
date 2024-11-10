@@ -23,7 +23,7 @@ export class RatingService {
 
   async getAllMoviesWithUserRating(userId: number): Promise<any[]> {
     // Fetch all movies
-    const movies = await this.movieRepository.find();
+    const movies = await this.movieRepository.find({relations: ['categories']});
 
     // Fetch all ratings by this user
     const userRatings = await this.movieRatingRepository.find({
@@ -35,7 +35,7 @@ export class RatingService {
 
     // Map user ratings by movie ID for quick lookup
     const userRatingsMap = userRatings.reduce((map, rating) => {
-      console.log('🚀 ~ RatingService ~ userRatingsMap ~ rating:', rating);
+      
 
       map[rating.movie.id] = rating.rating;
       return map;
